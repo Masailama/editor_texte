@@ -1,6 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
-from utils import BACK_FILES, BACKGROUND, SETTINGS_NOTEBOOK
+from utils import BACKGROUND
 
 
 class Editor(tk.Frame):
