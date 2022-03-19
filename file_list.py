@@ -42,6 +42,8 @@ class FileList(tk.Frame):
     def bind_functions(self):
         self.lb_add.bind("<Button-1>", lambda _: self.add_file())
         self.lb_open.bind("<Button-1>", lambda _: self.open_file())
+        self.lb_save.bind("<Button-1>", lambda _: self.save_file())
+        self.lb_save_as.bind("<Button-1>", lambda _: self.save_as_file())
         self.lb_run.bind("<Button-1>", lambda _: self.run_file())
         self.list.bind("<Double Button-1>", lambda _: self.select_file_list())
 
@@ -51,6 +53,7 @@ class FileList(tk.Frame):
         if item:
             self.path_files.append(item.name)
             self.fill_list(item.name)
+            self.editor.load_file(item.name)
             self.editor.editor.focus_set()
 
     def open_file(self):
@@ -62,15 +65,16 @@ class FileList(tk.Frame):
             self.editor.editor.focus_set()
 
     def save_file(self):
-        pass
-
+        self.editor.save_file(self.path_files[self.list.curselection()[0]])
+        
     def save_as_file(self):
-        filedialog.asksaveasfile(title="Guardar com", filetypes=(("Python files", "*.py"),), 
+        item = filedialog.asksaveasfile(title="Guardar com", filetypes=(("Python files", "*.py"),), 
             defaultextension=((".py")))
-
+        if item:
+            self.editor.save_file(item.name)
 
     def run_file(self):
-        self.editor.run_file()
+        self.editor.run_file(self.path_files[self.list.curselection()[0]])
 
     def fill_list(self, item):
         self.list.insert(tk.END, item.split("/")[-1])
